@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
+import BasicTemplate from '@/components/Templates/BasicTemplate'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,16 +17,18 @@ export default function Skills() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        My Skills
-        <ul>
-          {skills.map((skill) => (
-            <div key={skill}>
-              <li>{skill}</li>
-            </div>
-          ))}
-        </ul>
-      </main>
+      <BasicTemplate>
+        <main className={styles.main}>
+          <h1>My Skills</h1>
+          <ul>
+            {skills.map((skill) => (
+              <div key={skill}>
+                <li>{skill}</li>
+              </div>
+            ))}
+          </ul>
+        </main>
+      </BasicTemplate>
     </>
   )
 }

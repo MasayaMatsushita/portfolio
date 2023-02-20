@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import { finished } from 'stream'
-import { stringify } from 'querystring'
+import Header from '@/components/Header'
+import BasicTemplate from '@/components/Templates/BasicTemplate'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -38,33 +37,34 @@ export default function Todo() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <h1>ToDo リスト</h1>
-
-        <div>
-          <input type="text" placeholder="ToDoを追加" onChange={(e) => setInputItem(e.target.value)} value={inputItem}/>
-          <button onClick={()=>insertItem()}>追加</button>
-        </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>TODO</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {todo.map((item, index) => {
-              return (
-                <tr key={index}>
-                  <td>{item}</td>
-                  <td><button onClick={() => finishedItem(item)}>完了</button></td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </main>
+      <BasicTemplate>
+        <main className={styles.main}>
+          <h1>ToDo リスト</h1>
+          <div>
+            <input type="text" placeholder="ToDoを追加" onChange={(e) => setInputItem(e.target.value)} value={inputItem}/>
+            <button onClick={()=>insertItem()}>追加</button>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>TODO</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {todo.map((item, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{item}</td>
+                    <td><button onClick={() => finishedItem(item)}>完了</button></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </main>
+      </BasicTemplate>
+      
     </>
   )
 }

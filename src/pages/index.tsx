@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import ExternalSiteCard from '@/common/ExternalSiteCard'
+import BasicTemplate from '@/components/Templates/BasicTemplate'
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faFacebook } from "@fortawesome/free-brands-svg-icons";
@@ -37,42 +38,44 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <div>
-            <h1>松下将也のポートフォリオ</h1>
+      <BasicTemplate>
+        <main className={styles.main}>
+          <div className={styles.description}>
             <div>
-              <h2>自己紹介</h2>
-              <ul>
-                <li>氏名: 松下将也 (Masaya MATSUSHITA)</li>
-                <li>生年月日: 1997年5月4日</li>
-                <li>出身: 北海道</li>
-                <li>学歴: 長岡技術科学大学情報・経営システム工学専攻 卒業 (2022年3月)</li>
-              </ul>
-            </div>
-            <Image 
-              src="/profile.jpg"
-              alt="profile img"
-              width={180}
-              height={240}
-              priority
-            />
-            <h2>外部サイト</h2>
-            <div>
-              <h3>
-                {externalWebsites.map((externalWebsite) => (
-                    <ExternalSiteCard 
-                      siteName={externalWebsite.name}
-                      siteLink={externalWebsite.link}
-                      siteIcon= {externalWebsite.icon}
-                      key={externalWebsite.name}
-                    />
-                ))}
-              </h3>
+              <h1>TopPage</h1>
+              <div>
+                <h2>自己紹介</h2>
+                <ul>
+                  <li>氏名: 松下将也 (Masaya MATSUSHITA)</li>
+                  <li>生年月日: 1997年5月4日</li>
+                  <li>出身: 北海道</li>
+                  <li>学歴: 長岡技術科学大学情報・経営システム工学専攻 卒業 (2022年3月)</li>
+                </ul>
+              </div>
+              <Image 
+                src="/profile.jpg"
+                alt="profile img"
+                width={180}
+                height={240}
+                priority
+              />
+              <h2>外部サイト</h2>
+              <div>
+                <h3>
+                  {externalWebsites.map((externalWebsite) => (
+                      <ExternalSiteCard 
+                        siteName={externalWebsite.name}
+                        siteLink={externalWebsite.link}
+                        siteIcon= {externalWebsite.icon}
+                        key={externalWebsite.name}
+                      />
+                  ))}
+                </h3>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </BasicTemplate>
     </>
   )
 }
