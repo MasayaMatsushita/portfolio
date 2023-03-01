@@ -4,6 +4,7 @@ import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import Header from '@/components/Header'
 import BasicTemplate from '@/components/Templates/BasicTemplate'
+import Animation from '@/components/Animation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -62,6 +63,7 @@ export default function Todo() {
               })}
             </tbody>
           </table>
+          <Animation />
         </main>
       </BasicTemplate>
       
