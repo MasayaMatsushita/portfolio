@@ -6,7 +6,7 @@ const Animation = () => {
 
   return (
     <>
-      <Lottie animationData={animationData} loop={false} />
+      <Lottie animationData={animationData} loop={true} />
     </>
   );
 };
