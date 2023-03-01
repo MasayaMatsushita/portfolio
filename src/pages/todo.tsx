@@ -16,10 +16,14 @@ export default function Todo() {
     '簿記の試験勉強を頑張る'
   ]);
   const [inputItem, setInputItem] = useState<string>("");
+  const [visible, setVisible] = useState(false);
 
   const finishedItem = (item: string) => {
     const newTodo = todo.filter((todo) => todo !== item);
     setTodo(newTodo);
+    if(newTodo.length === 0) {
+      setVisible(true);
+    };
   };
   const insertItem = () => {
     // validation
@@ -28,6 +32,7 @@ export default function Todo() {
     const newTodo = todo.concat(inputItem);
     setTodo(newTodo);
     setInputItem("");
+    setVisible(false);
   };
 
   return (
@@ -63,7 +68,7 @@ export default function Todo() {
               })}
             </tbody>
           </table>
-          <Animation />
+          {visible === true ? <Animation /> : null}
         </main>
       </BasicTemplate>
       
