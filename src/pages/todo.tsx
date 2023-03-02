@@ -46,6 +46,22 @@ export default function Todo() {
     setVisible(false); // set visible to false
   };
 
+  const TodoArray = () => {
+    return (
+      <>
+        {todo.parentTodo.map((item, index) => (
+        <tr key={item.id}>
+          <td>{item.completed? null : item.text}</td>
+          <td>
+          {item.completed? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
+          </td>
+        </tr>
+      ))}
+      </>
+    )
+    
+  };
+
   return (
     <>
       <Head>
@@ -70,14 +86,7 @@ export default function Todo() {
                 </tr>
               </thead>
             <tbody>
-              {todo.parentTodo.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{item.completed? null : item.text}</td>
-                  <td>
-                  {item.completed? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
-                  </td>
-                </tr>
-              ))}
+              <TodoArray />
             </tbody>
           </table>
           {visible === true ? <Animation /> : null}
