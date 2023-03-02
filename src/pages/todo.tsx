@@ -5,22 +5,20 @@ import styles from '@/styles/Home.module.css'
 import Header from '@/components/Header'
 import BasicTemplate from '@/components/Templates/BasicTemplate'
 import Animation from '@/components/Animation'
+import  TodoList  from '../components/Todo.json'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Todo() {
 
-  const [todo, setTodo] = useState<string[]>([
-    '論文を読む',
-    '新しいシステムの仕様を考える',
-    '簿記の試験勉強を頑張る'
-  ]);
+  const [todo, setTodo] = useState(TodoList)
   const [inputItem, setInputItem] = useState<string>("");
   const [visible, setVisible] = useState(false);
 
-  const finishedItem = (item: string) => {
-    const newTodo = todo.filter((todo) => todo !== item);
-    setTodo(newTodo);
+  const finishedItem = (id: number) => {
+    const newTodo = todo.parentTodo;
+    console.log(newTodo);
+    // setTodo(newTodo);
     if(newTodo.length === 0) {
       setVisible(true);
     };
@@ -50,22 +48,21 @@ export default function Todo() {
             <input type="text" placeholder="ToDoを追加" onChange={(e) => setInputItem(e.target.value)} value={inputItem}/>
             <button onClick={()=>insertItem()}>追加</button>
           </div>
+
           <table>
             <thead>
-              <tr>
-                <th>TODO</th>
-                <th>Status</th>
-              </tr>
-            </thead>
+                <tr>
+                  <th>TODO</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
             <tbody>
-              {todo.map((item, index) => {
-                return (
+              {todo.parentTodo.map((item, index) => (
                   <tr key={index}>
-                    <td>{item}</td>
-                    <td><button onClick={() => finishedItem(item)}>完了</button></td>
+                      <td>{item.text}</td>
+                      <td><button onClick={() => finishedItem(item.id)}>完了</button></td>
                   </tr>
-                );
-              })}
+              ))}
             </tbody>
           </table>
           {visible === true ? <Animation /> : null}
