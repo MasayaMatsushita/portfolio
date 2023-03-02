@@ -5,7 +5,7 @@ import styles from '@/styles/Home.module.css'
 import Header from '@/components/Header'
 import BasicTemplate from '@/components/Templates/BasicTemplate'
 import Animation from '@/components/Animation'
-import  TodoList  from '../components/Todo.json'
+import  TodoList  from '../components/TodoList.json'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,24 +15,35 @@ export default function Todo() {
   const [inputItem, setInputItem] = useState<string>("");
   const [visible, setVisible] = useState(false);
 
-  const finishedItem = (id: number) => {
-    const newTodo = todo.parentTodo;
-    console.log(newTodo);
-    // setTodo(newTodo);
-    if(newTodo.length === 0) {
-      setVisible(true);
+  const deleteItem = (id: number) => {
+    let newTodo = todo; // clone
+
+    newTodo.parentTodo[id].completed = true; // set completed to true
+    setTodo({...newTodo});
+    
+    if(newTodo.parentTodo.every(item => item.completed === true)) {
+      setVisible(true); // set visible to true
     };
   };
-  const insertItem = () => {
-    // validation
-    if(inputItem === "") return;
 
-    let newTodo = todo;
-    newTodo.parentTodo.push({ id:newTodo.parentTodo.length+1 ,text: inputItem});
+  const insertItem = () => {
+    if(inputItem === "") return; // validation
+
+    let newTodo = todo; // clone
+    let maximum = 0;
+    if(newTodo.parentTodo.length !== 0) {
+      maximum = Math.max(...newTodo.parentTodo.map(item => item.id)); //find max id
+    }
+    newTodo.parentTodo.push({
+      id: maximum + 1,
+      text: inputItem,
+      completed: false
+    });
+
     setTodo(newTodo);
-    console.log(newTodo);
-    setInputItem("");
-    setVisible(false);
+    setInputItem(""); // clear input
+
+    setVisible(false); // set visible to false
   };
 
   return (
@@ -60,10 +71,12 @@ export default function Todo() {
               </thead>
             <tbody>
               {todo.parentTodo.map((item, index) => (
-                  <tr key={index}>
-                      <td>{item.text}</td>
-                      <td><button onClick={() => finishedItem(item.id)}>完了</button></td>
-                  </tr>
+                <tr key={item.id}>
+                  <td>{item.completed? null : item.text}</td>
+                  <td>
+                  {item.completed? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>
