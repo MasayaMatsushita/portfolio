@@ -27,8 +27,10 @@ export default function Todo() {
     // validation
     if(inputItem === "") return;
 
-    const newTodo = todo.concat(inputItem);
+    let newTodo = todo;
+    newTodo.parentTodo.push({ id:newTodo.parentTodo.length+1 ,text: inputItem});
     setTodo(newTodo);
+    console.log(newTodo);
     setInputItem("");
     setVisible(false);
   };
