@@ -66,8 +66,6 @@ export default function Todo() {
           <td>{item.isCompleted? null : item.text}</td>
           <td>
           {item.isCompleted? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
-          </td>
-          
           {item.isChildTodo && item.parentTodo?
             <table>
               <thead>
@@ -82,6 +80,7 @@ export default function Todo() {
             </table>
           : null
           }
+          </td>
         </tr>
         
       ))}
