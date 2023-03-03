@@ -96,7 +96,21 @@ export default function Todo() {
         <tr key={item.id}>
           <td>{item.isCompleted? null : item.text}</td>
           <td>
-            {item.isCompleted? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
+          {item.isCompleted || item.isChildTodo? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
+          {item.isChildTodo?
+            <table>
+              <thead>
+                  <tr>
+                    <th>TODO</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+              <tbody>
+                {ChildArray(item.id, item.parentTodo)}
+              </tbody>
+            </table>
+          : null
+          }
           </td>
         </tr>
       ))}

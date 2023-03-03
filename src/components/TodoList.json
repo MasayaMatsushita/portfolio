@@ -4,8 +4,16 @@
       "id": 0,
       "text": "論文を読む",
       "isCompleted": false,
-      "isChildTodo": false,
-      "parentTodo": []
+      "isChildTodo": true,
+      "parentTodo": [
+        {
+          "id": 3,
+          "text": "研究会で必要な論文を読む",
+          "isCompleted": false,
+          "isChildTodo": false,
+          "parentTodo": []
+        }
+      ]
     },
     {
       "id": 1,
@@ -24,8 +32,16 @@
           "id": 3,
           "text": "仕訳の練習",
           "isCompleted": false,
-          "isChildTodo": false,
-          "parentTodo": []
+          "isChildTodo": true,
+          "parentTodo": [
+            {
+              "id": 5,
+              "text": "1問を45秒以内に解く",
+              "isCompleted": false,
+              "isChildTodo": false,
+              "parentTodo": []
+            }
+          ]
         },
         {
           "id": 4,
