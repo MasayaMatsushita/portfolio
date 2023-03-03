@@ -77,7 +77,7 @@ export default function Todo() {
                   </tr>
                 </thead>
               <tbody>
-                {item.isChildTodo? ChildArray(item.id, item.parentTodo) : null}
+                {ChildArray(item.id, item.parentTodo)}
               </tbody>
             </table>
           : null
