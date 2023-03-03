@@ -5,34 +5,117 @@ import styles from '@/styles/Home.module.css'
 import Header from '@/components/Header'
 import BasicTemplate from '@/components/Templates/BasicTemplate'
 import Animation from '@/components/Animation'
+import  TodoList  from '../components/TodoList.json'
 
 const inter = Inter({ subsets: ['latin'] })
 
+interface TodoInterface {
+  id: number;
+  text: string;
+  isCompleted: boolean;
+  isChildTodo: boolean;
+  parentTodo: Array<TodoInterface>;
+}
+
 export default function Todo() {
 
-  const [todo, setTodo] = useState<string[]>([
-    '論文を読む',
-    '新しいシステムの仕様を考える',
-    '簿記の試験勉強を頑張る'
-  ]);
+  const [todo, setTodo] = useState(TodoList.parentTodo)
   const [inputItem, setInputItem] = useState<string>("");
   const [visible, setVisible] = useState(false);
 
-  const finishedItem = (item: string) => {
-    const newTodo = todo.filter((todo) => todo !== item);
-    setTodo(newTodo);
-    if(newTodo.length === 0) {
-      setVisible(true);
+  const deleteItem = (id: number) => {
+    console.log(todo);
+    let newTodo = todo; // clone
+
+    newTodo[id].isCompleted = true; // set completed to true
+    setTodo([...newTodo]);
+    
+    if(newTodo.every(item => item.isCompleted === true)) {
+      setVisible(true); // set visible to true
     };
   };
-  const insertItem = () => {
-    // validation
-    if(inputItem === "") return;
 
-    const newTodo = todo.concat(inputItem);
+  const insertItem = () => {
+    if(inputItem === "") return; // validation
+
+    let newTodo = todo; // clone
+    let maximum = 0;
+    if(newTodo.length !== 0) {
+      maximum = Math.max(...newTodo.map(item => item.id)); //find max id
+    }
+    newTodo.push({
+      id: maximum + 1,
+      text: inputItem,
+      isCompleted: false,
+      isChildTodo: false,
+      parentTodo: []
+    });
+
     setTodo(newTodo);
-    setInputItem("");
-    setVisible(false);
+    setInputItem(""); // clear input
+
+    setVisible(false); // set visible to false
+  };
+
+  const TodoArray = () => {
+    console.log(todo);
+    return (
+      <>
+        {todo.map((item, index) => (
+        <tr key={index}>
+          <td>{item.isCompleted? null : item.text}</td>
+          <td>
+          {item.isCompleted || item.isChildTodo? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
+          {item.isChildTodo?
+            <table>
+              <thead>
+                  <tr>
+                    <th>TODO</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+              <tbody>
+                {ChildArray(item.id, item.parentTodo)}
+              </tbody>
+            </table>
+          : null
+          }
+          </td>
+        </tr>
+        
+      ))}
+      </>
+    )
+    
+  };
+  const ChildArray = (id: number, parentTodo: Array<TodoInterface>) => {
+    console.log(parentTodo);
+    return (
+      <>
+        {parentTodo.map((item, index) => (
+        <tr key={item.id}>
+          <td>{item.isCompleted? null : item.text}</td>
+          <td>
+          {item.isCompleted || item.isChildTodo? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
+          {item.isChildTodo?
+            <table>
+              <thead>
+                  <tr>
+                    <th>TODO</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+              <tbody>
+                {ChildArray(item.id, item.parentTodo)}
+              </tbody>
+            </table>
+          : null
+          }
+          </td>
+        </tr>
+      ))}
+      </>
+    )
   };
 
   return (
@@ -50,22 +133,16 @@ export default function Todo() {
             <input type="text" placeholder="ToDoを追加" onChange={(e) => setInputItem(e.target.value)} value={inputItem}/>
             <button onClick={()=>insertItem()}>追加</button>
           </div>
+
           <table>
             <thead>
-              <tr>
-                <th>TODO</th>
-                <th>Status</th>
-              </tr>
-            </thead>
+                <tr>
+                  <th>TODO</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
             <tbody>
-              {todo.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{item}</td>
-                    <td><button onClick={() => finishedItem(item)}>完了</button></td>
-                  </tr>
-                );
-              })}
+              <TodoArray />
             </tbody>
           </table>
           {visible === true ? <Animation /> : null}
