@@ -37,7 +37,8 @@ export default function Todo() {
     newTodo.parentTodo.push({
       id: maximum + 1,
       text: inputItem,
-      completed: false
+      completed: false,
+      isChildTodo: false
     });
 
     setTodo(newTodo);
