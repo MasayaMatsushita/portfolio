@@ -10,7 +10,7 @@ import  TodoList  from '../components/TodoList.json'
 const inter = Inter({ subsets: ['latin'] })
 
 interface TodoInterface {
-  id: string;
+  id: number;
   text: string;
   isCompleted: boolean;
   isChildTodo: boolean;
@@ -48,7 +48,7 @@ export default function Todo() {
       text: inputItem,
       isCompleted: false,
       isChildTodo: false,
-      parentTodo: null
+      parentTodo: []
     });
 
     setTodo(newTodo);
@@ -62,16 +62,47 @@ export default function Todo() {
     return (
       <>
         {todo.map((item, index) => (
-        <tr key={item.id}>
+        <tr key={index}>
           <td>{item.isCompleted? null : item.text}</td>
           <td>
           {item.isCompleted? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
+          </td>
+          
+          {item.isChildTodo && item.parentTodo?
+            <table>
+              <thead>
+                  <tr>
+                    <th>TODO</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+              <tbody>
+                {item.isChildTodo? ChildArray(item.id, item.parentTodo) : null}
+              </tbody>
+            </table>
+          : null
+          }
+        </tr>
+        
+      ))}
+      </>
+    )
+    
+  };
+  const ChildArray = (id: number, parentTodo: Array<TodoInterface>) => {
+    console.log(parentTodo);
+    return (
+      <>
+        {parentTodo.map((item, index) => (
+        <tr key={item.id}>
+          <td>{item.isCompleted? null : item.text}</td>
+          <td>
+            {item.isCompleted? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
           </td>
         </tr>
       ))}
       </>
     )
-    
   };
 
   return (

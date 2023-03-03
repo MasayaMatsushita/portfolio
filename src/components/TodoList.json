@@ -5,14 +5,14 @@
       "text": "論文を読む",
       "isCompleted": false,
       "isChildTodo": false,
-      "parentTodo": null
+      "parentTodo": []
     },
     {
       "id": 1,
       "text": "新しいシステムの仕様を考える",
       "isCompleted": false,
       "isChildTodo": false,
-      "parentTodo": null
+      "parentTodo": []
     },
     {
       "id" : 2,
@@ -21,18 +21,18 @@
       "isChildTodo": true,
       "parentTodo": [
         {
-          "id": 0,
+          "id": 3,
           "text": "仕訳の練習",
           "isCompleted": false,
           "isChildTodo": false,
-          "parentTodo": null
+          "parentTodo": []
         },
         {
-          "id": 1,
+          "id": 4,
           "text": "訂正仕訳の理解",
           "isCompleted": false,
           "isChildTodo": false,
-          "parentTodo": null
+          "parentTodo": []
         }
       ]
     }
