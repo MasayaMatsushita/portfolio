@@ -66,7 +66,7 @@ export default function Todo() {
           <td>{item.isCompleted? null : item.text}</td>
           <td>
           {item.isCompleted || item.isChildTodo? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
-          {item.isChildTodo && item.parentTodo?
+          {item.isChildTodo?
             <table>
               <thead>
                   <tr>
