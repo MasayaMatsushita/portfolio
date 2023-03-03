@@ -3,25 +3,25 @@
     {
       "id": 0,
       "text": "論文を読む",
-      "completed": false,
+      "isCompleted": false,
       "isChildTodo": false
     },
     {
       "id": 1,
       "text": "新しいシステムの仕様を考える",
-      "completed": false,
+      "isCompleted": false,
       "isChildTodo": false
     },
     {
       "id" : 2,
       "text": "簿記の試験勉強を頑張る",
-      "completed": false,
+      "isCompleted": false,
       "isChildTodo": true,
       "parentTodo": [
         {
           "id": 0,
           "text": "仕訳の練習",
-          "completed": false,
+          "isCompleted": false,
           "isChildTodo": false
           }
       ]
