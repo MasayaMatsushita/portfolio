@@ -11,17 +11,18 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function Todo() {
 
-  const [todo, setTodo] = useState(TodoList)
+  const [todo, setTodo] = useState(TodoList.parentTodo)
   const [inputItem, setInputItem] = useState<string>("");
   const [visible, setVisible] = useState(false);
 
   const deleteItem = (id: number) => {
+    console.log(todo);
     let newTodo = todo; // clone
 
-    newTodo.parentTodo[id].completed = true; // set completed to true
-    setTodo({...newTodo});
+    newTodo[id].isCompleted = true; // set completed to true
+    setTodo([...newTodo]);
     
-    if(newTodo.parentTodo.every(item => item.completed === true)) {
+    if(newTodo.every(item => item.isCompleted === true)) {
       setVisible(true); // set visible to true
     };
   };
@@ -31,13 +32,13 @@ export default function Todo() {
 
     let newTodo = todo; // clone
     let maximum = 0;
-    if(newTodo.parentTodo.length !== 0) {
-      maximum = Math.max(...newTodo.parentTodo.map(item => item.id)); //find max id
+    if(newTodo.length !== 0) {
+      maximum = Math.max(...newTodo.map(item => item.id)); //find max id
     }
-    newTodo.parentTodo.push({
+    newTodo.push({
       id: maximum + 1,
       text: inputItem,
-      completed: false,
+      isCompleted: false,
       isChildTodo: false
     });
 
@@ -48,13 +49,14 @@ export default function Todo() {
   };
 
   const TodoArray = () => {
+    console.log(todo);
     return (
       <>
-        {todo.parentTodo.map((item, index) => (
+        {todo.map((item, index) => (
         <tr key={item.id}>
-          <td>{item.completed? null : item.text}</td>
+          <td>{item.isCompleted? null : item.text}</td>
           <td>
-          {item.completed? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
+          {item.isCompleted? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
           </td>
         </tr>
       ))}
