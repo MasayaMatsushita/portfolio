@@ -9,6 +9,14 @@ import  TodoList  from '../components/TodoList.json'
 
 const inter = Inter({ subsets: ['latin'] })
 
+interface TodoInterface {
+  id: string;
+  text: string;
+  isCompleted: boolean;
+  isChildTodo: boolean;
+  parentTodo: Array<TodoInterface>;
+}
+
 export default function Todo() {
 
   const [todo, setTodo] = useState(TodoList.parentTodo)
@@ -39,7 +47,8 @@ export default function Todo() {
       id: maximum + 1,
       text: inputItem,
       isCompleted: false,
-      isChildTodo: false
+      isChildTodo: false,
+      parentTodo: null
     });
 
     setTodo(newTodo);
