@@ -23,13 +23,25 @@ export default function Todo() {
   const [inputItem, setInputItem] = useState<string>("");
   const [visible, setVisible] = useState(false);
 
-  const deleteItem = (id: number) => {
-    let newTodo = todo; // clone
+  const changeCompleted = (todo: Array<TodoInterface>, id: number) => {
 
-    newTodo[id].isCompleted = true; // set completed to true
-    setTodo([...newTodo]);
+    let trueFlag = false;
+    todo.map((item) => {
+      if (item.id === id) {
+        item.isCompleted =!item.isCompleted;
+        trueFlag = true;
+      }
+      changeCompleted(item.parentTodo, id);
+    })
+    return todo
+  }
+  const deleteItem = (id: number) => {
+    let updateTodo = todo; // clone
+
+    updateTodo = changeCompleted(updateTodo, id);
+    setTodo([...updateTodo]);
     
-    if(newTodo.every(item => item.isCompleted === true)) {
+    if(updateTodo.every(item => item.isCompleted === true)) {
       setVisible(true); // set visible to true
     };
   };
@@ -66,7 +78,6 @@ export default function Todo() {
     )
   };
   const TodoArray = (parentTodo: Array<TodoInterface>) => {
-    console.log(parentTodo);
     return (
       <>
         {parentTodo.map((item, index) => (
