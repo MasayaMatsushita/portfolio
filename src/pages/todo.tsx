@@ -24,7 +24,6 @@ export default function Todo() {
   const [visible, setVisible] = useState(false);
 
   const deleteItem = (id: number) => {
-    console.log(todo);
     let newTodo = todo; // clone
 
     newTodo[id].isCompleted = true; // set completed to true
@@ -58,7 +57,6 @@ export default function Todo() {
   };
 
   const TodoArray = () => {
-    console.log(todo);
     return (
       <>
         {todo.map((item, index) => (
@@ -89,7 +87,6 @@ export default function Todo() {
     
   };
   const ChildArray = (id: number, parentTodo: Array<TodoInterface>) => {
-    console.log(parentTodo);
     return (
       <>
         {parentTodo.map((item, index) => (
