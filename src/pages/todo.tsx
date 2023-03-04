@@ -19,7 +19,7 @@ interface TodoInterface {
 
 export default function Todo() {
 
-  const [todo, setTodo] = useState(TodoList.parentTodo)
+  const [todo, setTodo] = useState<Array<TodoInterface>>(TodoList.parentTodo)
   const [inputItem, setInputItem] = useState<string>("");
   const [visible, setVisible] = useState(false);
 
