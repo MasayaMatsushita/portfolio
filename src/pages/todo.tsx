@@ -56,37 +56,17 @@ export default function Todo() {
     setVisible(false); // set visible to false
   };
 
-  const TodoArray = () => {
+  const FirstTodoArray = (props: Array<TodoInterface>) => {
+    const todoArray = Object.entries(props).map(([key, value]) => (value)); // Change type Object to Array
+    
     return (
       <>
-        {todo.map((item, index) => (
-        <tr key={index}>
-          <td>{item.isCompleted? null : item.text}</td>
-          <td>
-          {item.isCompleted || item.isChildTodo? null : <button onClick={()=>deleteItem(item.id)}>完了</button> }
-          {item.isChildTodo?
-            <table>
-              <thead>
-                  <tr>
-                    <th>TODO</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-              <tbody>
-                {ChildArray(item.id, item.parentTodo)}
-              </tbody>
-            </table>
-          : null
-          }
-          </td>
-        </tr>
-        
-      ))}
+        {TodoArray(todoArray)}
       </>
     )
-    
   };
-  const ChildArray = (id: number, parentTodo: Array<TodoInterface>) => {
+  const TodoArray = (parentTodo: Array<TodoInterface>) => {
+    console.log(parentTodo);
     return (
       <>
         {parentTodo.map((item, index) => (
@@ -103,7 +83,7 @@ export default function Todo() {
                   </tr>
                 </thead>
               <tbody>
-                {ChildArray(item.id, item.parentTodo)}
+                {TodoArray(item.parentTodo)}
               </tbody>
             </table>
           : null
@@ -139,7 +119,7 @@ export default function Todo() {
                 </tr>
               </thead>
             <tbody>
-              <TodoArray />
+              <FirstTodoArray {...todo} />
             </tbody>
           </table>
           {visible === true ? <Animation /> : null}
