@@ -24,21 +24,29 @@ export default function Todo() {
   const [visible, setVisible] = useState(false);
 
   const changeCompleted = (todo: Array<TodoInterface>, id: number) => {
-
-    let trueFlag = false;
     todo.map((item) => {
       if (item.id === id) {
         item.isCompleted =!item.isCompleted;
-        trueFlag = true;
       }
       changeCompleted(item.parentTodo, id);
     })
     return todo
   }
+  const reshapeTodo = (todo: Array<TodoInterface>) => {
+    todo.map((item) => {
+      if(item.parentTodo.every(item => item.isCompleted)){
+        item.isChildTodo = false;
+      }
+      reshapeTodo(item.parentTodo);
+    })
+    return todo
+  }
+
   const deleteItem = (id: number) => {
     let updateTodo = todo; // clone
 
-    updateTodo = changeCompleted(updateTodo, id);
+    // updateTodo = changeCompleted(todo, id); // change completed for pushed the button
+    updateTodo = reshapeTodo(changeCompleted(todo, id)); // reshape the array
     setTodo([...updateTodo]);
     
     if(updateTodo.every(item => item.isCompleted === true)) {
@@ -78,6 +86,7 @@ export default function Todo() {
     )
   };
   const TodoArray = (parentTodo: Array<TodoInterface>) => {
+    console.log(parentTodo);
     return (
       <>
         {parentTodo.map((item, index) => (
@@ -94,7 +103,7 @@ export default function Todo() {
                   </tr>
                 </thead>
               <tbody>
-                {TodoArray(item.parentTodo)}
+                {item.isChildTodo? TodoArray(item.parentTodo): null}
               </tbody>
             </table>
           : null
