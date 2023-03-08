@@ -16,26 +16,38 @@ interface TodoInterface {
   isChildTodo: boolean;
   parentTodo: Array<TodoInterface>;
 }
+interface TodoSelectInterface {
+  id: number;
+  text: string;
+}
 
 export default function Todo() {
 
   const [todo, setTodo] = useState<Array<TodoInterface>>(TodoList.parentTodo)
   const [inputItem, setInputItem] = useState<string>("");
   const [visible, setVisible] = useState(false);
+  const [inputId , setInputId] = useState(-1);
 
   const changeCompleted = (todo: Array<TodoInterface>, id: number) => {
     todo.map((item) => {
       if (item.id === id) {
-        item.isCompleted =!item.isCompleted;
+        item.isCompleted = true;
       }
       changeCompleted(item.parentTodo, id);
     })
     return todo
   }
+  const handleSelectChange = (event : string) => {
+    setInputId(Number(event));
+
+  }
+
   const reshapeTodo = (todo: Array<TodoInterface>) => {
     todo.map((item) => {
       if(item.parentTodo.every(item => item.isCompleted)){
         item.isChildTodo = false;
+      }else{
+        item.isChildTodo = true;
       }
       reshapeTodo(item.parentTodo);
     })
@@ -54,24 +66,57 @@ export default function Todo() {
     };
   };
 
-  const insertItem = () => {
+  const findMaxId = (todo: Array<TodoInterface>, maxId: number) => {
+    todo.map((item) => {
+      if (item.id > maxId) {
+        maxId = item.id;
+      }
+      maxId = findMaxId(item.parentTodo, maxId);
+    })
+    return maxId;
+  }
+
+  const pushTodo = (todo: Array<TodoInterface>, parentId: number, maximum: number) => {
+    if(parentId != -1){
+      todo.map((item) => { //insert to except root
+        if (item.id === parentId) {
+          item.parentTodo.push({
+            id: maximum,
+            text: inputItem,
+            isCompleted: false,
+            isChildTodo: false,
+            parentTodo: []
+          })
+        }
+        pushTodo(item.parentTodo, parentId, maximum);
+      })
+    }else{ //insert to root
+      todo.push({
+        id: maximum,
+        text: inputItem,
+        isCompleted: false,
+        isChildTodo: false,
+        parentTodo: []
+      })
+    }
+    
+    return todo
+  }
+  
+
+  const insertItem = (parentId: number = -1) => {
     if(inputItem === "") return; // validation
 
-    let newTodo = todo; // clone
-    let maximum = 0;
-    if(newTodo.length !== 0) {
-      maximum = Math.max(...newTodo.map(item => item.id)); //find max id
+    let maximum = -1;
+    if(todo.length !== 0) {
+      maximum = findMaxId(todo, 0); //find max id
     }
-    newTodo.push({
-      id: maximum + 1,
-      text: inputItem,
-      isCompleted: false,
-      isChildTodo: false,
-      parentTodo: []
-    });
+
+    let newTodo = reshapeTodo(pushTodo(todo, parentId, maximum+1));
 
     setTodo(newTodo);
     setInputItem(""); // clear input
+    setInputId(-1); // clear input id
 
     setVisible(false); // set visible to false
   };
@@ -86,7 +131,6 @@ export default function Todo() {
     )
   };
   const TodoArray = (parentTodo: Array<TodoInterface>) => {
-    console.log(parentTodo);
     return (
       <>
         {parentTodo.map((item, index) => (
@@ -115,6 +159,30 @@ export default function Todo() {
     )
   };
 
+  const FirstTodoOption = (props: Array<TodoInterface>) => {
+    const todoArray = Object.entries(props).map(([key, value]) => (value)); // Change type Object to Array
+    const todoSelectList = TodoOption(todoArray, [])
+    return(
+      <>
+        {todoSelectList.map((item, index) => (
+          <option key={item.id} value={item.id}>{item.text}</option>
+          ))}
+      </>
+    )
+  }
+  const TodoOption = (parentTodo: Array<TodoInterface>, todoDat: Array<TodoSelectInterface>) => {
+    parentTodo.map((item, index) => {
+      todoDat.push({
+        id: item.id,
+        text: item.text
+      })
+      if(item.isChildTodo){
+        TodoOption(item.parentTodo, todoDat);
+      }
+    });
+    return todoDat;
+  }
+
   return (
     <>
       <Head>
@@ -127,8 +195,16 @@ export default function Todo() {
         <main className={styles.main}>
           <h1>ToDo リスト</h1>
           <div>
+            <select 
+              id="selectTodo" 
+              onChange={(e) => handleSelectChange(e.target.value)}
+              value={inputId}
+            >
+              <option value={-1}>TODOを挿入する場所を選択</option>
+              <FirstTodoOption {...todo}/>
+            </select>
             <input type="text" placeholder="ToDoを追加" onChange={(e) => setInputItem(e.target.value)} value={inputItem}/>
-            <button onClick={()=>insertItem()}>追加</button>
+            <button onClick={()=>insertItem(inputId)}>追加</button>
           </div>
 
           <table>
