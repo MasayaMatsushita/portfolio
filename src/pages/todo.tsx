@@ -172,11 +172,13 @@ export default function Todo() {
   }
   const TodoOption = (parentTodo: Array<TodoInterface>, todoDat: Array<TodoSelectInterface>) => {
     parentTodo.map((item, index) => {
-      todoDat.push({
-        id: item.id,
-        text: item.text
-      })
-      if(item.isChildTodo){
+      if(!item.isCompleted){ // if not completed
+        todoDat.push({
+          id: item.id,
+          text: item.text
+        })
+      }
+      if(item.isChildTodo){ // if parentTodo has children
         TodoOption(item.parentTodo, todoDat);
       }
     });
