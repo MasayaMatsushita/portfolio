@@ -17,7 +17,7 @@ const Header = (props: any) => {
       <a href="./" style={{marginRight:"20px"}}>HOME</a>
       <a href="./skills" style={{marginRight:"20px"}}>スキル</a>
       <a href="./todo" style={{marginRight:"20px"}}>TODO</a>
-      <a href="./network" style={{marginRight:"20px"}}>ネットワーク</a>
+      <a href="https://masayamatsushita.github.io/visual-network/CytoWeb/" style={{marginRight:"20px"}}>ネットワーク</a>
       </div>
       
     </div>
