@@ -1,13 +1,9 @@
 import { useState } from 'react'
 import Head from 'next/head'
-import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
-import Header from '@/components/Header'
 import BasicTemplate from '@/components/Templates/BasicTemplate'
 import Animation from '@/components/Animation'
 import  TodoList  from '../components/TodoList.json'
-
-const inter = Inter({ subsets: ['latin'] })
 
 interface TodoInterface {
   id: number;
@@ -60,7 +56,7 @@ export default function Todo() {
     // updateTodo = changeCompleted(todo, id); // change completed for pushed the button
     updateTodo = reshapeTodo(changeCompleted(todo, id)); // reshape the array
     setTodo([...updateTodo]);
-    
+
     if(updateTodo.every(item => item.isCompleted === true)) {
       setVisible(true); // set visible to true
     };
@@ -99,10 +95,10 @@ export default function Todo() {
         parentTodo: []
       })
     }
-    
+
     return todo
   }
-  
+
 
   const insertItem = (parentId: number = -1) => {
     if(inputItem === "") return; // validation
@@ -123,7 +119,7 @@ export default function Todo() {
 
   const FirstTodoArray = (props: Array<TodoInterface>) => {
     const todoArray = Object.entries(props).map(([key, value]) => (value)); // Change type Object to Array
-    
+
     return (
       <>
         {TodoArray(todoArray)}
@@ -197,8 +193,8 @@ export default function Todo() {
         <main className={styles.main}>
           <h1>ToDo リスト</h1>
           <div>
-            <select 
-              id="selectTodo" 
+            <select
+              id="selectTodo"
               onChange={(e) => handleSelectChange(e.target.value)}
               value={inputId}
             >
@@ -223,7 +219,7 @@ export default function Todo() {
           {visible === true ? <Animation /> : null}
         </main>
       </BasicTemplate>
-      
+
     </>
   )
 }

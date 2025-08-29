@@ -1,14 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.css'
 import ExternalSiteCard from '@/common/ExternalSiteCard'
 import BasicTemplate from '@/components/Templates/BasicTemplate'
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faFacebook } from "@fortawesome/free-brands-svg-icons";
-
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
 
@@ -52,7 +48,7 @@ export default function Home() {
                   <li>学歴: 長岡技術科学大学情報・経営システム工学専攻 卒業 (2022年3月)</li>
                 </ul>
               </div>
-              <Image 
+              <Image
                 src="/profile.jpg"
                 alt="profile img"
                 width={180}
@@ -63,7 +59,7 @@ export default function Home() {
               <div>
                 <h3>
                   {externalWebsites.map((externalWebsite) => (
-                      <ExternalSiteCard 
+                      <ExternalSiteCard
                         siteName={externalWebsite.name}
                         siteLink={externalWebsite.link}
                         siteIcon= {externalWebsite.icon}
